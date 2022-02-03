@@ -1,26 +1,33 @@
-name: Test
+name: release
+
 on:
   push:
     tags:
       - v*
+
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    name: Check out code
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.44
 
-      - name: Install Go
+      - name: Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.17
-
-      - name: Create release
+      -
+        name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
