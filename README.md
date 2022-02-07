@@ -1,5 +1,7 @@
 # Fritz!Box Upnp statistics exporter for prometheus
 
+[![lint](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml)
+
 This exporter exports some variables from an 
 [AVM Fritzbox](http://avm.de/produkte/fritzbox/)
 to prometheus.
