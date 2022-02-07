@@ -454,7 +454,7 @@ func (fc *FritzboxCollector) Collect(ch chan<- prometheus.Metric) {
 					result, err := fc.getActionResult(m, m.Action, actArg)
 
 					if err != nil {
-						logrus.Error("Can not get result for %s: %s", m.Action, err)
+						logrus.Errorf("Can not get result for %s: %s", m.Action, err)
 						collectErrors.Inc()
 						continue
 					}
@@ -715,7 +715,7 @@ func main() {
 
 	u, err := url.Parse(*flagGatewayURL)
 	if err != nil {
-		logrus.Errorf("invalid URL:", err)
+		logrus.Errorf("invalid URL: %s", err)
 		return
 	}
 
@@ -732,13 +732,13 @@ func main() {
 	// read metrics
 	jsonData, err := ioutil.ReadFile(*flagMetricsFile)
 	if err != nil {
-		logrus.Errorf("error reading metric file:", err)
+		logrus.Errorf("error reading metric file: %s", err)
 		return
 	}
 
 	err = json.Unmarshal(jsonData, &metrics)
 	if err != nil {
-		logrus.Errorf("error parsing JSON:", err)
+		logrus.Errorf("error parsing JSON: %s", err)
 		return
 	}
 
