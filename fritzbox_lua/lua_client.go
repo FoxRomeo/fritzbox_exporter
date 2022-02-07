@@ -117,7 +117,7 @@ func (lmvDef *LuaMetricValueDefinition) createValue(name string, value float64) 
 	return lmv
 }
 
-// Login perform loing and get SID
+// Login perform login and get SID
 func (lua *LuaSession) Login() error {
 
 	err := lua.doLogin("")
