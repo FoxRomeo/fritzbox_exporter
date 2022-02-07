@@ -276,7 +276,10 @@ func (a *Action) createCallHTTPRequest(actionArg *ActionArgument) (*http.Request
 	if actionArg != nil {
 		var buf bytes.Buffer
 		sValue := fmt.Sprintf("%v", actionArg.Value)
-		xml.EscapeText(&buf, []byte(sValue))
+		err := xml.EscapeText(&buf, []byte(sValue))
+		if err != nil {
+			return nil, err
+		}
 		argsString += fmt.Sprintf(soapActionParamXML, actionArg.Name, buf.String(), actionArg.Name)
 	}
 	bodystr := fmt.Sprintf(soapActionXML, a.Name, a.service.ServiceType, argsString, a.Name, a.service.ServiceType)
@@ -355,12 +358,16 @@ func (a *Action) Call(actionArg *ActionArgument) (Result, error) {
 		errMsg := fmt.Sprintf("%s (%d)", http.StatusText(resp.StatusCode), resp.StatusCode)
 		if resp.StatusCode == 500 {
 			buf := new(strings.Builder)
-			io.Copy(buf, resp.Body)
+			_, err := io.Copy(buf, resp.Body)
+			if err != nil {
+				errMsg = fmt.Sprintf("error copying response data: %s", err.Error())
+				return nil, fmt.Errorf("%s: %s", a.Name, errMsg)
+			}
 			body := buf.String()
 			//fmt.Println(body)
 
 			var soapEnv SoapEnvelope
-			err := xml.Unmarshal([]byte(body), &soapEnv)
+			err = xml.Unmarshal([]byte(body), &soapEnv)
 			if err != nil {
 				errMsg = fmt.Sprintf("error decoding SOAPFault: %s", err.Error())
 			} else {
@@ -413,7 +420,10 @@ func (a *Action) getDigestAuthHeader(wwwAuth string, username string, password s
 	ha2 := fmt.Sprintf("%x", md5.Sum([]byte("POST:"+a.service.ControlURL)))
 
 	cn := make([]byte, 8)
-	rand.Read(cn)
+	_, err := rand.Read(cn)
+	if err != nil {
+		return "", err
+	}
 	cnonce := fmt.Sprintf("%x", cn)
 
 	nCounter := 1

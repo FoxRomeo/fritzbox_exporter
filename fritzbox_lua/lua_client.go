@@ -128,9 +128,12 @@ func (lua *LuaSession) Login() error {
 	challenge := lua.SessionInfo.Challenge
 	if lua.SessionInfo.SID == "0000000000000000" && challenge != "" {
 		// no SID, but challenge so calc response
-		hash := utf16leMd5(fmt.Sprintf("%s-%s", challenge, lua.Password))
+		hash, err := utf16leMd5(fmt.Sprintf("%s-%s", challenge, lua.Password))
+		if err != nil {
+			return err
+		}
 		response := fmt.Sprintf("%s-%x", challenge, hash)
-		err := lua.doLogin(response)
+		err = lua.doLogin(response)
 
 		if err != nil {
 			return err
@@ -223,7 +226,10 @@ func ParseJSON(jsonData []byte) (map[string]interface{}, error) {
 	var data map[string]interface{}
 
 	// Unmarshal or Decode the JSON to the interface.
-	json.Unmarshal(jsonData, &data)
+	err := json.Unmarshal(jsonData, &data)
+	if err != nil {
+		return nil, err
+	}
 
 	return data, nil
 }
@@ -359,12 +365,16 @@ VALUE:
 }
 
 // from https://stackoverflow.com/questions/33710672/golang-encode-string-utf16-little-endian-and-hash-with-md5
-func utf16leMd5(s string) []byte {
+func utf16leMd5(s string) ([]byte, error) {
 	enc := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewEncoder()
 	hasher := md5.New()
 	t := transform.NewWriter(hasher, enc)
-	t.Write([]byte(s))
-	return hasher.Sum(nil)
+	_, err := t.Write([]byte(s))
+	if err != nil {
+		return nil, err
+	}
+
+	return hasher.Sum(nil), nil
 }
 
 // helper for retrieving values from parsed JSON
