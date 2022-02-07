@@ -21,10 +21,11 @@ builds:
   ignore:
     - goos: windows
       goarch: arm64
+  mod_timestamp: '{{ .CommitTimestamp }}'
   flags:
     - -trimpath
   ldflags:
-    - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=goreleaser
+    - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{ .CommitDate }} -X main.builtBy=goreleaser
   main: cmd/exporter/exporter.go
   binary: fritzbox_exporter
 
