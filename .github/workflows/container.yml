@@ -1,15 +1,16 @@
 name: Container
 
 on:
-  push:
-    # Publish `main` as Docker `latest` image.
-    branches:
-      - main
-      - master
+  release:
+  # push:
+  #   # Publish `main` as Docker `latest` image.
+  #   branches:
+  #     - main
+  #     - master
 
-    # Publish `v1.2.3` tags as releases.
-    tags:
-      - '**' # All tags kick off a new container build Save history ad 5.0.x etc
+    # # Publish `v1.2.3` tags as releases.
+    # tags:
+    #   - '**' # All tags kick off a new container build Save history ad 5.0.x etc
 
   # Run tests for any PRs.
   pull_request:
@@ -154,13 +155,13 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "${{ needs.prepare.outputs.DOCKER_REPOSITORY }}:${{ github.sha }}"
-          format: 'template' 
+          format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'MEDIUM,HIGH,CRITICAL'
-          
+
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         if: always() 
