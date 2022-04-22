@@ -78,7 +78,7 @@ type LabelRename struct {
 
 // regex to remove leading/training characters from numbers
 var (
-	regexNonNumberEnd = regexp.MustCompile("\\D+$")
+	regexNonNumberEnd = regexp.MustCompile(`\\D+$`)
 )
 
 func (lua *LuaSession) doLogin(response string) error {
