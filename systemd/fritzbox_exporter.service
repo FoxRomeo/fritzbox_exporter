@@ -5,7 +5,7 @@ Description=FritzBox Prometheus Exporter
 User=fritzbox_exporter
 Group=fritzbox_exporter
 EnvironmentFile=/opt/fritzbox_exporter/.fritzbox_exporter.env
-ExecStart=/opt/fritzbox_exporter/fritzbox_exporter -gateway-url http://fritz.box:49000 -metrics-file /opt/fritzbox_exporter/metrics.json -listen-address 127.0.0.1:9101
+ExecStart=/opt/fritzbox_exporter/fritzbox_exporter -gateway-url fritz.box -metrics-file /opt/fritzbox_exporter/metrics.json -listen-address 127.0.0.1:9042
 
 [Install]
 WantedBy=multi-user.target

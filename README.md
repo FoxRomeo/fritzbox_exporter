@@ -1,6 +1,10 @@
 # Fritz!Box Upnp statistics exporter for prometheus
 
-[![lint](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml)
+forked from micxer/fritzbox_exporter
+
+[![lint](https://github.com/foxromeo/fritzbox_exporter/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml)
+
+-----------
 
 This exporter exports some variables from an 
 [AVM Fritzbox](http://avm.de/produkte/fritzbox/)
@@ -28,7 +32,7 @@ Other changes:
 
 ## Building
 
-    go install github.com/sberk42/fritzbox_exporter@latest
+    go install github.com/foxromeo/fritzbox_exporter@latest
 
 ## Running
 
@@ -44,7 +48,7 @@ Then start the container:
 ```bash
 $ docker run -e 'USERNAME=your_fritzbox_username' \
     -e 'PASSWORD=your_fritzbox_password' \
-    -e 'GATEWAY_URL="http://192.168.0.1:49000"' \
+    -e 'GATEWAY_URL="fritz.box"' \
     -e 'LISTEN_ADDRESS="0.0.0.0:9042"' \
     fritzbox-prometheus-exporter:latest
 ```
@@ -55,7 +59,7 @@ I've you're getting `no such host` issues, define your FritzBox as DNS server fo
 $ docker run --dns YOUR_FRITZBOX_IP \
     -e 'USERNAME=your_fritzbox_username' \
     -e 'PASSWORD=your_fritzbox_password' \
-    -e 'GATEWAY_URL="http://192.168.0.1:49000"' \
+    -e 'GATEWAY_URL="fritz.box"' \
     -e 'LISTEN_ADDRESS="0.0.0.0:9042"' \
     fritzbox-prometheus-exporter:latest
 ```

@@ -17,5 +17,5 @@ services:
     environment:
       USERNAME: your_fritzbox_username 
       PASSWORD: your_fritzbox_password
-      GATEWAY_URL: http://192.168.0.1:49000
+      GATEWAY_URL: fritz.box_or_your_fritzbox_ip
       LISTEN_ADDRESS: 0.0.0.0:9042

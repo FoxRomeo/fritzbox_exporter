@@ -31,7 +31,7 @@ spec:
          value: 'username'
        - name: PASSWORD
          value: 'password'
-       image: alexxanddr/fritzbox-exporter:latest
+       image: foxromeo/x86-fritzbox-exporter:latest
        imagePullPolicy: Always
        name: fritzbox-exporter
        resources: {}
