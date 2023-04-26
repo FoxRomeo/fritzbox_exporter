@@ -53,3 +53,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+          build-args: |
+            RELEASE_VERSION=${{ env.RELEASE_VERSION }}
