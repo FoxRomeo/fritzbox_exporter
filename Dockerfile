@@ -1,9 +1,13 @@
-# syntax=docker/dockerfile:1
-
+###############
 # Build Image
 FROM golang:alpine3.15 AS builder
+
+ARG RELEASE_VERSION
+# ARG RELEASE_VERSION=master 
+ENV RELEASE_VERSION $RELEASE_VERSION
+
 RUN go clean -cache -modcache; \
-    go install github.com/foxromeo/fritzbox_exporter@latest \
+    go install github.com/foxromeo/fritzbox_exporter@${RELEASE_VERSION} \
     && mkdir /app \
     && mv /go/bin/fritzbox_exporter /app
 
@@ -11,6 +15,7 @@ WORKDIR /app
 
 COPY metrics.json metrics-lua.json /app/
 
+###############
 # Runtime Image
 FROM alpine:3.15 as runtime-image
 
