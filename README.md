@@ -1,8 +1,9 @@
 # Fritz!Box Upnp statistics exporter for prometheus
 
-forked from micxer/fritzbox_exporter
-
+<a href="https://hub.docker.com/r/intrepidde/fritzbox_exporter"><img src="https://img.shields.io/docker/pulls/intrepidde/fritzbox_exporter.svg?style=plastic&logo=appveyor" alt="Docker pulls"/></a><br>
 [![ci](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml/badge.svg)](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml)
+
+forked from micxer/fritzbox_exporter
 
 -----------
 
