@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     tags:
-      - '**' # All tags kick off a new container build Save history ad 5.0.x etc
+      - 'v*' # All tags kick off a new container build Save history ad 5.0.x etc
   # Run tests for any PRs.
   pull_request:
 
@@ -25,6 +25,14 @@ jobs:
       DOCKER_BUILDKIT: 1
     runs-on: ubuntu-latest
     steps:
+      -
+        name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      -
+        name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       -
         name: Checkout
         uses: actions/checkout@v3
