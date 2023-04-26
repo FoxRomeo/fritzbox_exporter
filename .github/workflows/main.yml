@@ -3,7 +3,9 @@ name: ci
 on:
   push:
     branches:
-      - "main"
+      - "master"
+    tags:
+      - v*
 #  schedule:
 #    - cron: '30 5 * * 7'
 
