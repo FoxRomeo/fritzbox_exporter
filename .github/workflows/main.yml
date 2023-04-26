@@ -24,6 +24,10 @@ jobs:
       # Enable Docker Buildkit
       DOCKER_BUILDKIT: 1
     runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      DOCKER_TAG: ${{ steps.tag_image.outputs.DOCKER_TAG }}
+
     steps:
       -
         name: Set env
@@ -54,6 +58,11 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$DOCKER_TAG" == "master" ] && DOCKER_TAG=latest
           [ "$DOCKER_TAG" == "main" ] && DOCKER_TAG=latest
+
+          echo DOCKER_REPOSITORY=$DOCKER_REPOSITORY
+          echo DOCKER_TAG=$DOCKER_TAG
+          echo '::set-output name=DOCKER_REPOSITORY::'$DOCKER_REPOSITORY
+          echo '::set-output name=DOCKER_TAG::'$DOCKER_TAG
       -
         name: Build and push
         uses: docker/build-push-action@v4
