@@ -45,6 +45,15 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      - 
+        name: Tag Image
+        id: tag_image
+        run: |
+          DOCKER_TAG=${{ env.RELEASE_VERSION }}
+
+          # Use Docker `latest` tag convention
+          [ "$DOCKER_TAG" == "master" ] && DOCKER_TAG=latest
+          [ "$DOCKER_TAG" == "main" ] && DOCKER_TAG=latest
       -
         name: Build and push
         uses: docker/build-push-action@v4
@@ -53,6 +62,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
           platforms: ${{ env.BUILD_PLATFORM }}
           build-args: |
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
