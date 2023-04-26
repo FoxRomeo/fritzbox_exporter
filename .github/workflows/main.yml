@@ -60,7 +60,7 @@ jobs:
           [ "$DOCKER_TAG" == "main" ] && DOCKER_TAG=latest
 
           echo DOCKER_TAG=$DOCKER_TAG
-          echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_OUTPUT
+          echo "DOCKER_TAG=$DOCKER_TAG" >> "$GITHUB_ENV"
       -
         name: Build and push
         uses: docker/build-push-action@v4
