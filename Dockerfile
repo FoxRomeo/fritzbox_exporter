@@ -2,7 +2,8 @@
 
 # Build Image
 FROM golang:alpine3.15 AS builder
-RUN go install github.com/foxromeo/fritzbox_exporter@latest \
+RUN go clean -cache -modcache; \
+    go install github.com/foxromeo/fritzbox_exporter@latest \
     && mkdir /app \
     && mv /go/bin/fritzbox_exporter /app
 
