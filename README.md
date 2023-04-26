@@ -2,6 +2,8 @@
 
 forked from micxer/fritzbox_exporter
 
+[![ci](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml/badge.svg)](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml)
+
 -----------
 
 This exporter exports some variables from an 
