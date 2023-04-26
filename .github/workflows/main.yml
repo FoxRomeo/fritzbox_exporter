@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - "main"
-  schedule:
-    - cron: '30 5 * * 7'
+#  schedule:
+#    - cron: '30 5 * * 7'
 
 env:
   BUILD_PLATFORM: |
