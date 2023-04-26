@@ -6,8 +6,8 @@ on:
       - "master"
     tags:
       - 'v*' # All tags kick off a new container build Save history ad 5.0.x etc
-  # Run tests for any PRs.
-  pull_request:
+# Run tests for any PRs.
+#  pull_request:
 
 env:
   BUILD_PLATFORM: |
@@ -15,7 +15,6 @@ env:
     linux/arm/v7
     linux/arm64
     linux/amd64
-
 
 jobs:
   build:
