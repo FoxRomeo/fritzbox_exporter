@@ -2,8 +2,6 @@
 
 forked from micxer/fritzbox_exporter
 
-[![lint](https://github.com/foxromeo/fritzbox_exporter/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/micxer/fritzbox_exporter/actions/workflows/lint.yml)
-
 -----------
 
 This exporter exports some variables from an 
