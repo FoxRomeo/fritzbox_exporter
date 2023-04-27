@@ -43,6 +43,7 @@ Heimnetzübersicht > Netzwerkeinstellungen" has to be enabled.
 ### Using docker
 
 First you have to build the container: `docker build --tag fritzbox-prometheus-exporter:latest .`
+or use `docker pull intrepidde/fritzbox_exporter:latest`
 
 Then start the container:
 

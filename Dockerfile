@@ -2,8 +2,8 @@
 # Build Image
 FROM golang:alpine3.15 AS builder
 
-#ARG RELEASE_VERSION
-ARG RELEASE_VERSION=master 
+ARG RELEASE_VERSION
+#ARG RELEASE_VERSION=master
 ENV RELEASE_VERSION $RELEASE_VERSION
 
 RUN go clean -cache -modcache; \
@@ -43,4 +43,4 @@ COPY --chown=fritzbox:fritzbox --from=builder /app /app
 EXPOSE ${LISTEN_PORT}
 
 ENTRYPOINT [ "sh", "-c", "/app/fritzbox_exporter" ]
-CMD [ "-username", "${USERNAME}", "-password", "${PASSWORD}", "-gateway-url", "${GATEWAY_URL}", "-listen-address", "${LISTEN_ADDRESS}" , "-use-tls" , "-allow-selfsigned"]
+CMD [ "-username", "${USERNAME}", "-password", "${PASSWORD}", "-gateway-url", "http://${GATEWAY_URL}:49000", "-listen-address", "${LISTEN_ADDRESS}"]
