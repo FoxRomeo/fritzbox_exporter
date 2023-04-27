@@ -26,9 +26,13 @@ MAINTAINER docker@intrepid.de
 
 ENV USERNAME username
 ENV PASSWORD password
-ENV GATEWAY_URL fritz.box
+ENV GATEWAY fritz.box
+ENV GATEWAY_URL "http://${GATEWAY}:49000"
+ENV GATEWAY_LUA "http://${GATEWAY}"
 ENV LISTEN_PORT 9042
 ENV LISTEN_ADDRESS 0.0.0.0:${LISTEN_PORT}
+ENV ADDITIONAL_PARAMETER
+#ENV ADDITIONAL_PARAMETER "-nolua"
 
 RUN passwd -l root ; \
     mkdir /app \
@@ -43,4 +47,4 @@ COPY --chown=fritzbox:fritzbox --from=builder /app /app
 EXPOSE ${LISTEN_PORT}
 
 ENTRYPOINT [ "sh", "-c", "/app/fritzbox_exporter" ]
-CMD [ "-username", "${USERNAME}", "-password", "${PASSWORD}", "-gateway-url", "http://${GATEWAY_URL}:49000", "-listen-address", "${LISTEN_ADDRESS}"]
+CMD [ "-username", "${USERNAME}", "-password", "${PASSWORD}", "-gateway-url", "${GATEWAY_URL}", "-gateway-luaurl", "${GATEWAY_LUA}" ,"-listen-address", "${LISTEN_ADDRESS}", "${ADDITIONAL_PARAMETER}"]
