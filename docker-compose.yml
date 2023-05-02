@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: fritzbox-prometheus-exporter
+    #image: intrepidde/fritzbox
+    #
     # for dns issues like "dial tcp: lookup fritz.box on 127.0.0.11:53: no such host"
     # uncomment and fill the following line:
     # dns: YOUR_FRITZBOX_IP
@@ -17,5 +19,11 @@ services:
     environment:
       USERNAME: your_fritzbox_username 
       PASSWORD: your_fritzbox_password
-      GATEWAY_URL: fritz.box_or_your_fritzbox_ip
-      LISTEN_ADDRESS: 0.0.0.0:9042
+      GATEWAY: fritz.box_or_your_fritzbox_ip
+      LISTEN_PORT: 9042
+      # METRICS: metrics.json
+      # LUA_METRICS: metrics-lua.json
+      # LOGLEVEL: info
+      # if variable exists and is not empty, then it'S set to true for the executable:
+      # NOLUA: 1 
+      # VERIFYTLS: 1

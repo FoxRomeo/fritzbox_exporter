@@ -14,6 +14,8 @@ RUN go clean -cache -modcache; \
 WORKDIR /app
 
 COPY metrics.json metrics-lua.json /app/
+COPY metrics-lua_cable.json luaTest.json luaTest-many.json /app/
+COPY all_available_metrics_*.json /app/
 
 ###############
 # Runtime Image
@@ -24,27 +26,23 @@ ARG REPO=foxromeo/fritzbox_exporter
 LABEL org.opencontainers.image.source https://github.com/${REPO}
 MAINTAINER docker@intrepid.de
 
-ENV USERNAME username
-ENV PASSWORD password
-ENV GATEWAY fritz.box
-ENV GATEWAY_URL "http://${GATEWAY}:49000"
-ENV GATEWAY_LUA "http://${GATEWAY}"
-ENV LISTEN_PORT 9042
-ENV LISTEN_ADDRESS 0.0.0.0:${LISTEN_PORT}
-ENV ADDITIONAL_PARAMETER ""
-#ENV ADDITIONAL_PARAMETER "-nolua"
+COPY entrypoint.sh /entrypoint.sh
+COPY fritzbox_exporter.sh /app/fritzbox_exporter.sh
 
 RUN passwd -l root ; \
-    mkdir /app \
-    && addgroup -S -g 1000 fritzbox \
-    && adduser -S -u 1000 -G fritzbox fritzbox \
-    && chown -R fritzbox:fritzbox /app
+    mkdir /app && \
+    addgroup -S -g 1000 fritzbox && \
+    adduser -S -u 1000 -G fritzbox fritzbox && \
+    chown -R fritzbox:fritzbox /app && \
+    chmod 550 /entrypoint.sh && \
+    chmod 750 /app/fritzbox_exporter.sh
 
 WORKDIR /app
-
 COPY --chown=fritzbox:fritzbox --from=builder /app /app
+
+USER fritzbox
 
 EXPOSE ${LISTEN_PORT}
 
-ENTRYPOINT [ "sh", "-c", "/app/fritzbox_exporter" ]
-CMD [ "-username", "${USERNAME}", "-password", "${PASSWORD}", "-gateway-url", "${GATEWAY_URL}", "-gateway-luaurl", "${GATEWAY_LUA}" ,"-listen-address", "${LISTEN_ADDRESS}", "${ADDITIONAL_PARAMETER}"]
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "/app/fritzbox_exporter.sh"]
