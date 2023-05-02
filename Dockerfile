@@ -26,11 +26,12 @@ ARG REPO=foxromeo/fritzbox_exporter
 LABEL org.opencontainers.image.source https://github.com/${REPO}
 MAINTAINER docker@intrepid.de
 
+RUN mkdir /app
+
 COPY entrypoint.sh /entrypoint.sh
 COPY fritzbox_exporter.sh /app/fritzbox_exporter.sh
 
 RUN passwd -l root ; \
-    mkdir /app && \
     addgroup -S -g 1000 fritzbox && \
     adduser -S -u 1000 -G fritzbox fritzbox && \
     chown -R fritzbox:fritzbox /app && \
