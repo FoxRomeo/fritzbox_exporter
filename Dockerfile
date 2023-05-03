@@ -35,7 +35,7 @@ RUN passwd -l root ; \
     addgroup -S -g 1000 fritzbox && \
     adduser -S -u 1000 -G fritzbox fritzbox && \
     chown -R fritzbox:fritzbox /app && \
-    chmod 550 /entrypoint.sh && \
+    chmod 555 /entrypoint.sh && \
     chmod 750 /app/fritzbox_exporter.sh
 
 WORKDIR /app
