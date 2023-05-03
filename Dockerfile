@@ -26,6 +26,8 @@ ARG REPO=foxromeo/fritzbox_exporter
 LABEL org.opencontainers.image.source https://github.com/${REPO}
 MAINTAINER docker@intrepid.de
 
+ENV GOMAXPROCS 1
+
 RUN mkdir /app
 
 COPY entrypoint.sh /entrypoint.sh
