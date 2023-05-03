@@ -4,6 +4,7 @@
 [![ci](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml/badge.svg)](https://github.com/FoxRomeo/fritzbox_exporter/actions/workflows/main.yml)
 
 forked from micxer/fritzbox_exporter
+primary focus of this fork is to build (and continously update/rebuild) the docker container for ARM32v6 (all RaspberryPis), ARM32v7 (newer RPis), ARM64 and x86/AMD64
 
 -----------
 
@@ -50,9 +51,9 @@ Then start the container:
 ```bash
 $ docker run -e 'USERNAME=your_fritzbox_username' \
     -e 'PASSWORD=your_fritzbox_password' \
-    -e 'GATEWAY_URL="fritz.box"' \
-    -e 'LISTEN_ADDRESS="0.0.0.0:9042"' \
-    fritzbox-prometheus-exporter:latest
+    -e 'GATEWAY="fritz.box"' \
+    -e 'LISTEN_PORT="9042"' \
+    intrepidde/fritzbox_exporter:latest
 ```
 
 I've you're getting `no such host` issues, define your FritzBox as DNS server for your docker container like this:
@@ -61,10 +62,29 @@ I've you're getting `no such host` issues, define your FritzBox as DNS server fo
 $ docker run --dns YOUR_FRITZBOX_IP \
     -e 'USERNAME=your_fritzbox_username' \
     -e 'PASSWORD=your_fritzbox_password' \
-    -e 'GATEWAY_URL="fritz.box"' \
-    -e 'LISTEN_ADDRESS="0.0.0.0:9042"' \
-    fritzbox-prometheus-exporter:latest
+    -e 'GATEWAY="fritz.box"' \
+    -e 'LISTEN_PORT="9042"' \
+    intrepidde/fritzbox_exporter:latest
 ```
+
+Additional options:
+  METRICS="metrics.json"
+  sets -metrics-file="metrics.json": The JSON file with the metric definitions.
+
+  LUA_METRICS="metrics-lua.json"
+  sets -lua-metrics-file="metrics-lua.json": The JSON file with the lua metric definitions.
+
+  NOLUA="1"
+  sets -nolua=true: disable collecting lua metrics
+  unset or set to 0 = false/default
+
+  VERIFYTLS="1"
+  sets -verifyTls=true: Verify the tls connection when connecting to the FRITZ!Box
+  unset or set to 0 = false/default
+
+
+  LOGLEVEL="info"
+  sets -log-level="info": The logging level. Can be error, warn, info, debug or trace
 
 ### Using docker-compose
 
@@ -76,33 +96,23 @@ Then start up the container using `docker-compose up -d`.
 
 Usage:
 
-    $GOPATH/bin/fritzbox_exporter -h
-    Usage of ./fritzbox_exporter:
-      -gateway-url string
-        The URL of the FRITZ!Box (default "http://fritz.box:49000")
-      -gateway-luaurl string
-        The URL of the FRITZ!Box UI (default "http://fritz.box")
-      -metrics-file string
-        The JSON file with the metric definitions. (default "metrics.json")
-      -lua-metrics-file string
-        The JSON file with the lua metric definitions. (default "metrics-lua.json")
-      -test
-        print all available SOAP calls and their results (if call possible) to stdout
-      -json-out string
-        store metrics also to JSON file when running test   
-      -testLua
-        read luaTest.json file make all contained calls and dump results
-      -collect
-        collect metrics once print to stdout and exit
-      -nolua
-        disable collecting lua metrics
-      -username string
-        The user for the FRITZ!Box UPnP service
-      -password string
-        The password for the FRITZ!Box UPnP service
-      -listen-address string
-        The address to listen on for HTTP requests. (default "127.0.0.1:9042")
-    
+./fritzbox_exporter --help
+Usage of ./fritzbox_exporter:
+  -collect=false: print configured metrics to stdout and exit
+  -gateway-luaurl="http://fritz.box": The URL of the FRITZ!Box UI
+  -gateway-url="http://fritz.box:49000": The URL of the FRITZ!Box
+  -json-out="": store metrics also to JSON file when running test
+  -listen-address="127.0.0.1:9042": The address to listen on for HTTP requests.
+  -log-level="info": The logging level. Can be error, warn, info, debug or trace
+  -lua-metrics-file="metrics-lua.json": The JSON file with the lua metric definitions.
+  -metrics-file="metrics.json": The JSON file with the metric definitions.
+  -nolua=false: disable collecting lua metrics
+  -password="": The password for the FRITZ!Box UPnP service
+  -test=false: print all available metrics to stdout
+  -testLua=false: read luaTest.json file make all contained calls and dump results
+  -username="": The user for the FRITZ!Box UPnP service
+  -verifyTls=false: Verify the tls connection when connecting to the FRITZ!Box
+
     The password (needed for metrics from TR-064 API) can be passed over environment variables to test in shell:
     read -rs PASSWORD && export PASSWORD && ./fritzbox_exporter -username <user> -test; unset PASSWORD
 
