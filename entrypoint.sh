@@ -53,3 +53,4 @@ echo "#!/bin/sh" > /app/fritzbox_exporter.sh
 echo >> /app/fritzbox_exporter.sh
 echo "/app/fritzbox_exporter ${PARAMETERS}" >> /app/fritzbox_exporter.sh
 
+exec "$@"
