@@ -22,7 +22,7 @@ fi
 
 if [ -n "${GATEWAY}" ]; then
   GATEWAY_URL="-gateway-url http://${GATEWAY}:49000"
-  if [ -z "${NOLUA}"] ; then
+  if [ -z "${NOLUA}" ] ; then
     GATEWAY_LUA="-gateway-luaurl http://${GATEWAY}"  
   fi
 fi
