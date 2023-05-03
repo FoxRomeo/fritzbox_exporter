@@ -6,6 +6,8 @@
 forked from micxer/fritzbox_exporter
 primary focus of this fork is to build (and continously update/rebuild) the docker container for ARM32v6 (all RaspberryPis), ARM32v7 (newer RPis), ARM64 and x86/AMD64
 
+Tested on a FRITZ!Box 6591 Cable with FRITZ!OS 7.29
+
 -----------
 
 This exporter exports some variables from an 
