@@ -5,7 +5,7 @@ on:
     - cron:  '0 3 * * 2,4'
   push:
     branches:
-      - "master"
+      - "main"
     tags:
       - 'v*' # All tags kick off a new container build Save history ad 5.0.x etc
 # Run tests for any PRs.
