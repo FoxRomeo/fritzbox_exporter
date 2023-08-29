@@ -3,7 +3,7 @@
 FROM golang:1.19-alpine3.17 AS builder
 
 ARG RELEASE_VERSION
-#ARG RELEASE_VERSION=master
+#ARG RELEASE_VERSION=main
 ENV RELEASE_VERSION $RELEASE_VERSION
 
 RUN go clean -cache -modcache ; \
